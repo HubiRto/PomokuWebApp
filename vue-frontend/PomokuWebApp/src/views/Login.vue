@@ -1,5 +1,6 @@
 <script>
   import axios from "axios";
+  import router from "@/router";
 
   export default {
     name: 'Login',
@@ -16,6 +17,7 @@
         console.log(this.loginData);
         const response = await axios.post('http://localhost:8080/login', this.loginData);
         localStorage.setItem('token', response.data.token);
+        await router.push('/');
       }
     }
   }
@@ -49,6 +51,7 @@
         <label class="form-check-label" for="exampleCheck1">Zapamiętaj mnie</label>
       </div>
       <button type="submit" class="btn btn-success w-100">Zaloguj</button>
+      <RouterLink to="/register">Nie masz jeszcze konta?</RouterLink>
     </form>
   </div>
   </body>

@@ -1,5 +1,6 @@
 <script>
   import axios from "axios";
+  import router from "@/router";
 
   export default {
     name: 'Register',
@@ -16,6 +17,7 @@
     methods: {
       submitRegister() {
         axios.post('http://localhost:8080/register', this.registerData);
+        router.push('/login');
       }
     }
   }
@@ -54,6 +56,7 @@
         <input type="password" class="form-control" id="repeatPassword" placeholder="Powtórz Hasło">
       </div>
       <button type="submit" class="btn btn-success w-100">Zarejestruj</button>
+      <RouterLink to="/login">Masz już konto?</RouterLink>
     </form>
   </div>
   </body>
