@@ -1,6 +1,19 @@
 <script>
+  import axios from "axios";
+
   export default {
-    name: 'Home'
+    name: 'Home',
+    mounted() {
+      axios
+          .get("http://localhost:8080/messages", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
+          .then(res => {
+            console.log(res);
+          });
+    }
   }
 </script>
 
@@ -11,4 +24,5 @@
 </template>
 
 <style scoped>
+
 </style>

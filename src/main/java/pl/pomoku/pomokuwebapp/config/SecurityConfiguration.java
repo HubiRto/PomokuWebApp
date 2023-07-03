@@ -10,19 +10,29 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
+    private final UserAuthProvider userAuthProvider;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(
+                        new JwtAuthFilter(userAuthProvider),
+                        BasicAuthenticationFilter.class
+                )
+                .sessionManagement(customizer -> customizer
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) ->
-                        request.requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
-                                .anyRequest().authenticated()
+                        request
+                                .requestMatchers(HttpMethod.POST, "/login", "/register")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
                 )
                 .cors(Customizer.withDefaults());
         return http.build();

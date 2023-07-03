@@ -12,8 +12,10 @@
       }
     },
     methods: {
-      submitLogin(){
-        axios.post('http://localhost:8080/login', this.loginData);
+      async submitLogin() {
+        console.log(this.loginData);
+        const response = await axios.post('http://localhost:8080/login', this.loginData);
+        localStorage.setItem('token', response.data.token);
       }
     }
   }
