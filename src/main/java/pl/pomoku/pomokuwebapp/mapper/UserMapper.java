@@ -4,12 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pl.pomoku.pomokuwebapp.dto.SignUpDto;
 import pl.pomoku.pomokuwebapp.dto.UserDto;
-import pl.pomoku.pomokuwebapp.entity.User;
+import pl.pomoku.pomokuwebapp.entity.AppUser;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserDto toUserDto(User user);
+    UserDto toUserDto(AppUser appUser);
 
     @Mapping(target = "password", ignore = true)
-    User signUpToUser(SignUpDto signUpDto);
+    AppUser signUpToUser(SignUpDto signUpDto);
 }

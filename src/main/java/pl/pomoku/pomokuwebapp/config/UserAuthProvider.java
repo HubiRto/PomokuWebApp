@@ -32,7 +32,7 @@ public class UserAuthProvider {
         Date validity = new Date(now.getTime() + 3_600_000);
 
         return JWT.create()
-                .withIssuer(dto.getLogin())
+                .withIssuer(dto.getEmail())
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
                 .withClaim("firstName", dto.getFirstName())
@@ -45,7 +45,7 @@ public class UserAuthProvider {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decoded = verifier.verify(token);
         UserDto user = UserDto.builder()
-                .login(decoded.getIssuer())
+                .email(decoded.getIssuer())
                 .firstName(decoded.getClaim("firstName").asString())
                 .lastName(decoded.getClaim("lastName").asString())
                 .build();

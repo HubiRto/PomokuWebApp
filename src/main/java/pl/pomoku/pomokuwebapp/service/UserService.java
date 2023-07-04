@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import pl.pomoku.pomokuwebapp.dto.CredentialsDto;
 import pl.pomoku.pomokuwebapp.dto.SignUpDto;
 import pl.pomoku.pomokuwebapp.dto.UserDto;
-import pl.pomoku.pomokuwebapp.entity.User;
+import pl.pomoku.pomokuwebapp.entity.AppUser;
+import pl.pomoku.pomokuwebapp.entity.AppUserRole;
 import pl.pomoku.pomokuwebapp.exception.AppException;
 import pl.pomoku.pomokuwebapp.mapper.UserMapper;
 import pl.pomoku.pomokuwebapp.repository.UserRepository;
@@ -23,24 +24,25 @@ public class UserService {
     private final UserMapper userMapper;
 
     public UserDto login(CredentialsDto credentialsDto){
-        User user = userRepository.findByLogin(credentialsDto.login())
+        AppUser appUser = userRepository.findByEmail(credentialsDto.email())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 
         if(passwordEncoder.matches(CharBuffer.wrap(credentialsDto.password())
-        , user.getPassword())){
-            return userMapper.toUserDto(user);
+        , appUser.getPassword())){
+            return userMapper.toUserDto(appUser);
         }
         throw new AppException("Invalid password", HttpStatus.BAD_REQUEST);
     }
 
     public UserDto register(SignUpDto signUpDto) {
-        Optional<User> oUser = userRepository.findByLogin(signUpDto.login());
+        Optional<AppUser> oUser = userRepository.findByEmail(signUpDto.email());
         if(oUser.isPresent()){
-            throw new AppException("Login already exist", HttpStatus.BAD_REQUEST);
+            throw new AppException("Email is already exist", HttpStatus.BAD_REQUEST);
         }
-        User user = userMapper.signUpToUser(signUpDto);
-        user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signUpDto.password())));
-        User savedUser = userRepository.save(user);
-        return userMapper.toUserDto(savedUser);
+        AppUser appUser = userMapper.signUpToUser(signUpDto);
+        appUser.setPassword(passwordEncoder.encode(CharBuffer.wrap(signUpDto.password())));
+        appUser.setAppUserRole(AppUserRole.USER);
+        AppUser savedAppUser = userRepository.save(appUser);
+        return userMapper.toUserDto(savedAppUser);
     }
 }
