@@ -9,7 +9,7 @@
         registerData: {
           firstName: '',
           lastName: '',
-          login: '',
+          email: '',
           password: ''
         }
       }
@@ -43,7 +43,7 @@
       <div class="form-group">
         <label for="emailInput">Email</label>
         <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-               v-model="registerData.login" placeholder="Email">
+               v-model="registerData.email" placeholder="Email">
       </div>
 
       <div class="form-group">

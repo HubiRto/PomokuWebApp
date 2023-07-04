@@ -29,7 +29,11 @@ public class SecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) ->
                         request
-                                .requestMatchers(HttpMethod.POST, "/login", "/register")
+                                .requestMatchers(HttpMethod.POST,
+                                        "/login",
+                                        "/register",
+                                        "/reset-password-request"
+                                )
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

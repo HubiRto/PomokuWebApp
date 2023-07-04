@@ -45,4 +45,8 @@ public class UserService {
         AppUser savedAppUser = userRepository.save(appUser);
         return userMapper.toUserDto(savedAppUser);
     }
+
+    public Optional<AppUser> findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 }

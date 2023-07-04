@@ -7,17 +7,13 @@
     data() {
       return {
         loginData: {
-          email: '',
-          password: ''
+          email: ''
         },
       }
     },
     methods: {
       async submitLogin() {
-        console.log(this.loginData);
-        const response = await axios.post('http://localhost:8080/login', this.loginData);
-        localStorage.setItem('token', response.data.token);
-        await router.push('/');
+        await axios.post('http://localhost:8080/reset-password-request', this.loginData);
       }
     }
   }
@@ -37,21 +33,7 @@
                v-model="loginData.email"
         >
       </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Hasło</label>
-        <input type="password"
-               class="form-control"
-               id="exampleInputPassword1"
-               placeholder=" Podaj hasło"
-               v-model="loginData.password"
-        >
-      </div>
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Zapamiętaj mnie</label>
-      </div>
       <button type="submit" class="btn btn-success w-100">Zaloguj</button>
-      <RouterLink to="/register">Nie masz jeszcze konta?</RouterLink>
     </form>
   </div>
   </body>

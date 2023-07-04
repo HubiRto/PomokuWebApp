@@ -2,6 +2,8 @@ import {createRouter, createWebHistory} from 'vue-router'
 import Login from "@/views/Login.vue";
 import Home from "@/views/Home.vue";
 import Register from "@/views/Register.vue";
+import ForgotPassword from "@/views/ForgotPassword.vue";
+import ResetPassword from "@/views/ResetPassword.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +24,18 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: Register,
+      meta: { requiresAuth: false }
+    },
+    {
+      path: "/forgot-password",
+      name: "forgot-password",
+      component: ForgotPassword,
+      meta: { requiresAuth: false }
+    },
+    {
+      path: "/reset-password",
+      name: "reset-password",
+      component: ResetPassword,
       meta: { requiresAuth: false }
     }
   ]
