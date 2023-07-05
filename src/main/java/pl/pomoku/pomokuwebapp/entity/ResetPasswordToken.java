@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -19,7 +18,7 @@ public class ResetPasswordToken {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String token;
-    private Date expiredAt;
+    private LocalDateTime expiredAt;
     @OneToOne(targetEntity = AppUser.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "app_user_id")
     private AppUser appUser;

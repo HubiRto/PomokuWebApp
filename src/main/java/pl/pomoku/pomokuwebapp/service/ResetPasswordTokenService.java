@@ -6,23 +6,28 @@ import pl.pomoku.pomokuwebapp.entity.AppUser;
 import pl.pomoku.pomokuwebapp.entity.ResetPasswordToken;
 import pl.pomoku.pomokuwebapp.repository.ResetPasswordTokenRepository;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ResetPasswordTokenService {
     private final ResetPasswordTokenRepository repository;
-    public void createResetPasswordToken(AppUser appUser){
-        String token = generateToken();
+
+    public ResetPasswordToken findByToken(String token){
+        return repository.findByToken(token);
+    }
+
+    public void createResetPasswordToken(AppUser appUser, String resetToken){
         ResetPasswordToken resetPasswordToken = ResetPasswordToken.builder()
-                .token(token)
+                .token(resetToken)
                 .appUser(appUser)
+                .expiredAt(LocalDateTime.now().plusMinutes(15))
                 .build();
         repository.save(resetPasswordToken);
     }
 
-
-    private String generateToken(){
-        return UUID.randomUUID().toString();
+    public void removeToken(ResetPasswordToken token){
+        repository.delete(token);
     }
 }
