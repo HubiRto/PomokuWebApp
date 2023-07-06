@@ -33,7 +33,7 @@
                v-model="loginData.email"
         >
       </div>
-      <button type="submit" class="btn btn-success w-100">Zaloguj</button>
+      <button type="submit" class="btn btn-success w-100">Wyślij</button>
     </form>
   </div>
   </body>

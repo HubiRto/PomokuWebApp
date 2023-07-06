@@ -14,10 +14,12 @@
     },
     methods: {
       async submitLogin() {
-        console.log(this.loginData);
         const response = await axios.post('http://localhost:8080/login', this.loginData);
         localStorage.setItem('token', response.data.token);
         await router.push('/');
+      },
+      async submitLoginGoogle() {
+        await router.push('http://localhost:8080/oauth2/authorization/github');
       }
     }
   }
@@ -50,8 +52,13 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Zapamiętaj mnie</label>
       </div>
-      <button type="submit" class="btn btn-success w-100">Zaloguj</button>
-      <RouterLink to="/register">Nie masz jeszcze konta?</RouterLink>
+      <button type="submit" class="login btn btn-success w-100">Zaloguj</button>
+      <RouterLink to="/register">Nie masz jeszcze konta?</RouterLink><br>
+      <RouterLink to="/forgot-password">Zapomniałeś hasła?</RouterLink>
+      <hr>
+      <p class="text-center"> Zaloguj przy pomocy</p>
+      <button type="button" class="btn btn-danger w-100" @click="submitLoginGoogle">Google</button>
+      <button type="button" class="btn btn-dark w-100">Github</button>
     </form>
   </div>
   </body>

@@ -39,6 +39,9 @@ public class AppUser implements UserDetails {
     @Column(name = "app_user_role", nullable = false)
     private AppUserRole appUserRole;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(appUserRole.name()));

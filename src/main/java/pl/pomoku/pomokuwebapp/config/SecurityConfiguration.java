@@ -11,12 +11,14 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.pomoku.pomokuwebapp.service.CustomOAuth2UserService;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final UserAuthProvider userAuthProvider;
+    private final CustomOAuth2UserService oAuth2UserService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -33,7 +35,9 @@ public class SecurityConfiguration {
                                         "/register",
                                         "/reset-password-request",
                                         "/verify-token",
-                                        "/change-password"
+                                        "/change-password",
+                                        "/oauth/**",
+                                        "/v2/api-docs"
                                 )
                                 .permitAll()
                                 .anyRequest()
